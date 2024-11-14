@@ -34,3 +34,8 @@ docker-compose exec web ./manage.py createsuperuser
 
 ### Client side
 ![img.png](readme-images/client-side.png)
+
+### Link for video presentation
+```commandline
+https://youtu.be/wb9PCAekOAk
+```
