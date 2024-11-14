@@ -1,0 +1,130 @@
+{% load leaflet_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map of Flats</title>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header, footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        header h1, footer p {
+            margin: 0;
+        }
+        #map {
+            width: 100%;
+            height: calc(100vh - 140px); /* Adjust height to fit header and footer */
+        }
+        .leaflet-popup-content {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .leaflet-popup-content strong {
+            color: #333;
+        }
+        .leaflet-popup-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .leaflet-popup-content th, .leaflet-popup-content td {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .leaflet-popup-content th {
+            text-align: left;
+            background-color: #f2f2f2;
+        }
+        .leaflet-popup-content td {
+            background-color: #fff;
+        }
+        @media (max-width: 768px) {
+            .leaflet-popup-content {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Map of Flats</h1>
+    </header>
+    <div id="map"></div>
+    <footer>
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([42.87, 74.59], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Add a scale control
+        L.control.scale().addTo(map);
+
+        // Function to create popups with flat details
+        function onEachFeature(feature, layer) {
+            if (feature.properties) {
+                var popupContent = `
+                    <table>
+                        <tr>
+                            <th>Complex name</th>
+                            <td>${feature.properties.complex_name}</td>
+                        </tr>
+                        <tr>
+                            <th>Builder company</th>
+                            <td>${feature.properties.builder_company}</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>${feature.properties.address}</td>
+                        </tr>
+                        <tr>
+                            <th>Build Year</th>
+                            <td>${feature.properties.build_year}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>${feature.properties.price}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>${feature.properties.description}</td>
+                        </tr>
+                        <tr>
+                            <th>Photo</th>
+                            <td><img src="${feature.properties.photo}" alt="Flat Photo" style="max-width:100%;height:auto;"></td>
+                        </tr>
+                    </table>
+                `;
+                layer.bindPopup(popupContent);
+            }
+        }
+
+        // Add GeoJSON data
+        var flats = {{ flats_json|safe }};
+        L.geoJSON(flats, {
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        // Add zoom control
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+    </script>
+</body>
+</html>

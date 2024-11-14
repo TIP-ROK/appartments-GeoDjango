@@ -31,3 +31,6 @@ docker-compose exec web ./manage.py createsuperuser
 ```
 ### Admin panel
 ![img.png](readme-images/img.png)
+
+### Client side
+![img.png](readme-images/client-side.png)

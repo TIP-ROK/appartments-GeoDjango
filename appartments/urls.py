@@ -19,9 +19,11 @@ from django.contrib import admin
 from django.urls import path
 
 from appartments import settings
+from core.views import map_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', map_view, name='map'),
 ]
 
 # Serve media and static files during development (DEBUG=True)
