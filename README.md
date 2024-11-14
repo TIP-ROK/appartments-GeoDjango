@@ -29,3 +29,5 @@ docker-compose up -d --build
 ```
 docker-compose exec web ./manage.py createsuperuser
 ```
+### Admin panel
+![img.png](readme-images/img.png)
