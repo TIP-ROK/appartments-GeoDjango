@@ -17,9 +17,9 @@ The web backend expects the following environment variables to be set:
 - `SECRET_KEY`
 
 ### Setup
-#### Coppy project to your
+#### Coppy project to your device using SSH
 ```
-
+git clone git@github.com:TIP-ROK/appartments-GeoDjango.git
 ```
 #### Run project
 ```
